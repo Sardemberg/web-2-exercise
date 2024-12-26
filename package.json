@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Sardemberg/web-2-exercisehttps:/issues"
   },
-  "homepage": "https://github.com/Sardemberg/web-2-exercisehttps:#readme"
+  "homepage": "https://github.com/Sardemberg/web-2-exercisehttps:#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }
