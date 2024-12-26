@@ -1,0 +1,19 @@
+{
+  "name": "web-2-exercise",
+  "version": "1.0.0",
+  "description": "Atividade de Harley",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sardemberg/web-2-exercisehttps:.git"
+  },
+  "author": "Carlos Yan, Hadassa Kiria, Gabriel Alencar, Lucas Sardemberg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sardemberg/web-2-exercisehttps:/issues"
+  },
+  "homepage": "https://github.com/Sardemberg/web-2-exercisehttps:#readme"
+}
