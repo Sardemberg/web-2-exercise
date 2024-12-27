@@ -3,9 +3,7 @@ const mongoose = require('mongoose')
 
 const connectDB = () => {
     const mongoDbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.CLUSTER_URL}/?retryWrites=true&w=majority&appName=${process.env.MONGO_APP_NAME}`
-    console.log(mongoDbUrl)
-    mongoose
-    .connect(mongoDbUrl, {
+    mongoose.connect(mongoDbUrl, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
