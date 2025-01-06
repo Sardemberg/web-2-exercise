@@ -1,7 +1,9 @@
 const { json } = require('express');
 const express = require('express');
+const { dayMiddleware } = require("./middlewares/dayMiddleware")
 const app = express();
 app.use(json());  // Note que json precisa ser chamado como função
+app.use(dayMiddleware);
 
 //rota para criar um acesso
 app.post('/acesso', (req, res) => {
