@@ -28,7 +28,7 @@ describe("dayMiddleware tests", () => {
     test("Tests when day is a util day", () => {
         jest
             .useFakeTimers()
-            .setSystemTime(new Date('2025-01-06')); // Represents a saturday
+            .setSystemTime(new Date('2025-01-06')); // Represents a monday
 
         dayMiddleware(mockRequest, mockResponse, nextFunction)
         
