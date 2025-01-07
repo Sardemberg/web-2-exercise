@@ -2,12 +2,16 @@ const { LabModel } = require('../model/lab')
 
 const labRepository = {
     createLab: async (name, capacity, description, photo) => {
-        await LabModel({
+        await LabModel.create({
             name: name,
             capacity: capacity,
             description: description,
             photo: photo
-        }).create()
+        })
+    },
+    getAllLabs: async () => {
+        const allLabs = await LabModel.find()
+        return allLabs
     }
 }
 

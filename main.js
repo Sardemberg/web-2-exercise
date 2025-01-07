@@ -1,6 +1,8 @@
 const { config } = require('dotenv')
 const {connectDB} = require('./src/config/mongodb')
-const { userRepository } = require('./src/repository/userRepository')
+const fs = require('fs');
+const path = require('path');
+const { labRepository } = require('./src/repository/labRepository')
 
 // Configuring envs:
 config()
@@ -9,15 +11,24 @@ config()
 connectDB()
 
 const main = async () => {
-    // Creating a user:
-    const login = "Lucas Sardemberg"
-    const senha = "testando123"
-    await userRepository.createUser(login, senha)
+    try {
+        // Caminho da imagem gato.png
+        const imagePath = path.join(__dirname, 'gato.jpeg');
+        const imageBuffer = fs.readFileSync(imagePath);
 
-    // List all users
-    const users = await userRepository.listAllUsers()
-    console.log(users)
-}
+        // Criação de um laboratório
+        await labRepository.createLab(
+            'Laboratório de Testes',
+            50,
+            'Este laboratório é usado para testes de software.',
+            imageBuffer
+        );
+
+        console.log('Laboratório criado com sucesso!');
+    } catch (error) {
+        console.error('Erro ao criar laboratório:', error);
+    }
+};
 
 
 main()
