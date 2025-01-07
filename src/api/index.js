@@ -1,8 +1,14 @@
+const { config } = require('dotenv')
+const { connectDB } = require('../config/mongodb')
 const { json } = require('express');
 const express = require('express');
 const { dayMiddleware } = require("./middlewares/dayMiddleware")
+const { labReportController } = require("./controllers/labReportController")
+
+config()
+connectDB()
 const app = express();
-app.use(json());  // Note que json precisa ser chamado como função
+app.use(json());
 app.use(dayMiddleware);
 
 //rota para criar um acesso
@@ -21,9 +27,7 @@ app.post('/laboratorio', (req, res) => {
 });
 
 //rota para relatório de laboratórios
-app.get('/laboratorio/relatorio', (req, res) => {
-
-});
+app.get('/laboratorio/relatorio', labReportController);
 
 
 app.listen(3000, () => {
