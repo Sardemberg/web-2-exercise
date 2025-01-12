@@ -12,9 +12,14 @@ const userRepository = {
     listAllUsers: async () => {
         const users = await UserModel.find()
         return users
+    },
+    deleteUser: async (id) => {
+        await UserModel.deleteOne({ _id: id })
+        console.log("Usuário deletado com sucesso!")
     }
 }
 
 module.exports = {
     userRepository
 }
+
