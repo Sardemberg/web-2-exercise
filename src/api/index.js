@@ -2,10 +2,12 @@ const { config } = require('dotenv');
 const { connectDB } = require('../config/mongodb');
 const { json } = require('express');
 const express = require('express');
-const { dayMiddleware } = require("./middlewares/dayMiddleware");
-const { labReportController } = require("./controllers/labReportController");
-const { loginController } = require("./controllers/loginController");
 const { validateTokenMiddleware } = require('./middlewares/validateToken');
+const { dayMiddleware } = require("./middlewares/dayMiddleware")
+const { labReportController } = require("./controllers/labReportController")
+const { labCreateController } = require("./controllers/labCreateController")
+const { multerMiddleware } = require("./middlewares/multerMiddleware");
+const { healthCheckController } = require('./controllers/healthCheckController');
 
 config();
 connectDB();
@@ -13,7 +15,13 @@ const app = express();
 app.use(json());
 app.use(dayMiddleware);
 
+
+
+//Healthcheck
+app.get("/", healthCheckController)
+
 // Rota para criar um acesso
+
 app.post('/acesso', (req, res) => {
     const { login, password } = req.body;
     // Verifica se o usuário existe no banco de dados
@@ -31,11 +39,8 @@ app.post('/acesso', (req, res) => {
 app.post('/validaLogin', loginController);
 
 // Rota para Laboratório novo
-app.post('/laboratorio', validateTokenMiddleware, (req, res) => {
-   // Lógica para criar um novo laboratório
-   res.status(201).json({ message: 'Laboratório criado com sucesso' });
-});
-
+app.post('/laboratorio', validateTokenMiddleware, multerMiddleware.single("foto"), labCreateController);
+ 
 // Rota para relatório de laboratórios
 app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
 
