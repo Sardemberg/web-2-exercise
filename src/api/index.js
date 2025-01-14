@@ -5,13 +5,17 @@ const express = require('express');
 const { dayMiddleware } = require("./middlewares/dayMiddleware")
 const { labReportController } = require("./controllers/labReportController")
 const { labCreateController } = require("./controllers/labCreateController")
-const { multerMiddleware } = require("./middlewares/multerMiddleware")
+const { multerMiddleware } = require("./middlewares/multerMiddleware");
+const { healthCheckController } = require('./controllers/healthCheckController');
 
 config()
 connectDB()
 const app = express();
 app.use(json());
 app.use(dayMiddleware);
+
+//Healthcheck
+app.get("/", healthCheckController)
 
 //rota para criar um acesso
 app.post('/acesso', (req, res) => {
