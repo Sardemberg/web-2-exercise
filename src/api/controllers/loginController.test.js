@@ -25,10 +25,11 @@ describe('Login Controller', () => {
     });
 
     it('deve retornar 404 quando o usuário não for encontrado', async () => {
-        userRepository.listAllUsers.mockResolvedValue([]);
+        userRepository.findUserByLogin.mockResolvedValue(null);
 
         await loginController(req, res);
 
+        expect(userRepository.findUserByLogin).toHaveBeenCalledWith('testuser');
         expect(res.status).toHaveBeenCalledWith(404);
         expect(res.json).toHaveBeenCalledWith({
             message: 'Usuário não encontrado :(',
@@ -36,12 +37,14 @@ describe('Login Controller', () => {
     });
 
     it('deve retornar 401 quando a senha estiver incorreta', async () => {
-        userRepository.listAllUsers.mockResolvedValue([
-            { login: 'testuser', password: 'wrongpassword' },
-        ]);
+        userRepository.findUserByLogin.mockResolvedValue({
+            login: 'testuser',
+            password: 'wrongpassword',
+        });
 
         await loginController(req, res);
 
+        expect(userRepository.findUserByLogin).toHaveBeenCalledWith('testuser');
         expect(res.status).toHaveBeenCalledWith(401);
         expect(res.json).toHaveBeenCalledWith({
             message: 'Senha incorreta :(',
@@ -49,14 +52,16 @@ describe('Login Controller', () => {
     });
 
     it('deve retornar 200 e um token quando o login e a senha estiverem corretos', async () => {
-        userRepository.listAllUsers.mockResolvedValue([
-            { login: 'testuser', password: '123456' },
-        ]);
+        userRepository.findUserByLogin.mockResolvedValue({
+            login: 'testuser',
+            password: '123456',
+        });
 
         tokenService.createToken.mockReturnValue('mocked-token');
 
         await loginController(req, res);
 
+        expect(userRepository.findUserByLogin).toHaveBeenCalledWith('testuser');
         expect(tokenService.createToken).toHaveBeenCalledWith({ password: '123456' });
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
@@ -66,10 +71,11 @@ describe('Login Controller', () => {
     });
 
     it('deve retornar 500 em caso de erro inesperado', async () => {
-        userRepository.listAllUsers.mockRejectedValue(new Error('Database error'));
+        userRepository.findUserByLogin.mockRejectedValue(new Error('Database error'));
 
         await loginController(req, res);
 
+        expect(userRepository.findUserByLogin).toHaveBeenCalledWith('testuser');
         expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({
             message: 'Erro ao fazer o login',
