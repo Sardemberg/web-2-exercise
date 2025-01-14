@@ -5,6 +5,7 @@ const express = require('express');
 const { dayMiddleware } = require("./middlewares/dayMiddleware")
 const { labReportController } = require("./controllers/labReportController")
 const { labCreateController } = require("./controllers/labCreateController")
+const { multerMiddleware } = require("./middlewares/multerMiddleware")
 
 config()
 connectDB()
@@ -23,7 +24,7 @@ app.post('/login', (req, res) => {
 });
 
 //rota para Laboratório novo
-app.post('/laboratorio', labCreateController);
+app.post('/laboratorio', multerMiddleware.single("foto"), labCreateController);
 
 //rota para relatório de laboratórios
 app.get('/laboratorio/relatorio', labReportController);
