@@ -43,6 +43,8 @@ app.post('/laboratorio', validateTokenMiddleware, multerMiddleware.single("foto"
 // Rota para relatório de laboratórios
 app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+const app_port = process.env.APP_PORT || 10000
+
+app.listen(app_port, () => {
+    console.log(`Server is running on port ${app_port}`);
 });
