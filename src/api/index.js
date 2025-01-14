@@ -5,6 +5,7 @@ const express = require('express');
 const { dayMiddleware } = require("./middlewares/dayMiddleware");
 const { labReportController } = require("./controllers/labReportController");
 const { loginController } = require("./controllers/loginController");
+const { validateTokenMiddleware } = require('./middlewares/validateToken');
 
 config();
 connectDB();
@@ -12,7 +13,7 @@ const app = express();
 app.use(json());
 app.use(dayMiddleware);
 
-//rota para criar um acesso
+// Rota para criar um acesso
 app.post('/acesso', (req, res) => {
     const { login, password } = req.body;
     // Verifica se o usuário existe no banco de dados
@@ -26,16 +27,17 @@ app.post('/acesso', (req, res) => {
 
 });
 
-//rota para logar
+// Rota para logar
 app.post('/validaLogin', loginController);
 
-//rota para Laboratório novo
-app.post('/laboratorio', (req, res) => {
-   
+// Rota para Laboratório novo
+app.post('/laboratorio', validateTokenMiddleware, (req, res) => {
+   // Lógica para criar um novo laboratório
+   res.status(201).json({ message: 'Laboratório criado com sucesso' });
 });
 
-//rota para relatório de laboratórios
-app.get('/laboratorio/relatorio', labReportController);
+// Rota para relatório de laboratórios
+app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
