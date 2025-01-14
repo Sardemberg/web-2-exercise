@@ -2,20 +2,19 @@ const { config } = require('dotenv');
 const { connectDB } = require('../config/mongodb');
 const { json } = require('express');
 const express = require('express');
-const { validateTokenMiddleware } = require('./middlewares/validateToken');
+const { validateTokenMiddleware } = require('./middlewares/vadetionMiddleware');
 const { dayMiddleware } = require("./middlewares/dayMiddleware")
 const { labReportController } = require("./controllers/labReportController")
 const { labCreateController } = require("./controllers/labCreateController")
 const { multerMiddleware } = require("./middlewares/multerMiddleware");
 const { healthCheckController } = require('./controllers/healthCheckController');
+const { loginController } = require('./controllers/loginController')
 
 config();
 connectDB();
 const app = express();
 app.use(json());
 app.use(dayMiddleware);
-
-
 
 //Healthcheck
 app.get("/", healthCheckController)
