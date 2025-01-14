@@ -1,9 +1,12 @@
-const { validateTokenMiddleware } = require("./validateTokenMiddleware");
-const { tokenService } = require("../services/token_service");
+const { validateTokenMiddleware } = require("./vadetionMiddleware");
 
-jest.mock("../services/token_service", () => ({
-    validateToken: jest.fn(),
+jest.mock("../../service/token_service", () => ({
+    tokenService: {
+        validateToken: jest.fn(),
+    }
 }));
+
+const { tokenService } = require("../../service/token_service");
 
 describe("validateTokenMiddleware tests", () => {
     let mockRequest = {};
@@ -15,7 +18,6 @@ describe("validateTokenMiddleware tests", () => {
         mockResponse.status = jest.fn().mockReturnValue(mockResponse);
         mockResponse.json = jest.fn().mockReturnValue(mockResponse);
         nextFunction.mockClear();
-        tokenService.validateToken.mockClear();
     });
 
     test("Returns 401 when authorization header is missing", () => {
