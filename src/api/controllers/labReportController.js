@@ -1,4 +1,5 @@
 const PDFDocument = require('pdfkit');
+const path = require('path')
 const { labRepository } = require("../../repository/labRepository");
 
 const labReportController = async (_, res) => {
@@ -33,15 +34,18 @@ const labReportController = async (_, res) => {
             doc.text(`Descrição: ${lab.description}`);
             doc.moveDown(0.5);
 
-            if (lab.photo && Buffer.isBuffer(lab.photo)) {
+            if (lab.photo) {
+                const imagePath = path.join(__dirname, '../../../uploads', lab.photo);
+
                 try {
-                    doc.image(lab.photo, {
+                    doc.image(imagePath, {
                         fit: [150, 150],
                         align: 'center',
                         valign: 'center',
                     });
                 } catch (err) {
                     doc.text("Erro ao carregar a foto.");
+                    console.error(err.message)
                 }
             } else {
                 doc.text("Foto não disponível.");
