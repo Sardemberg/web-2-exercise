@@ -2,6 +2,7 @@ const { config } = require('dotenv');
 const { connectDB } = require('../config/mongodb');
 const { json } = require('express');
 const express = require('express');
+const { validateTokenMiddleware } = require('./middlewares/validateToken');
 const { dayMiddleware } = require("./middlewares/dayMiddleware")
 const { labReportController } = require("./controllers/labReportController")
 const { labCreateController } = require("./controllers/labCreateController")
@@ -14,10 +15,13 @@ const app = express();
 app.use(json());
 app.use(dayMiddleware);
 
+
+
 //Healthcheck
 app.get("/", healthCheckController)
 
-//rota para criar um acesso
+// Rota para criar um acesso
+
 app.post('/acesso', (req, res) => {
     const { login, password } = req.body;
     // Verifica se o usuário existe no banco de dados
@@ -31,14 +35,14 @@ app.post('/acesso', (req, res) => {
 
 });
 
-//rota para logar
+// Rota para logar
 app.post('/validaLogin', loginController);
 
-//rota para Laboratório novo
-app.post('/laboratorio', multerMiddleware.single("foto"), labCreateController);
-
-//rota para relatório de laboratórios
-app.get('/laboratorio/relatorio', labReportController);
+// Rota para Laboratório novo
+app.post('/laboratorio', validateTokenMiddleware, multerMiddleware.single("foto"), labCreateController);
+ 
+// Rota para relatório de laboratórios
+app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
