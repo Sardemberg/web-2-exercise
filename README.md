@@ -49,14 +49,14 @@ Esta API permite o gerenciamento de salas laboratoriais, oferecendo funcionalida
 ### Cadastro de Laboratórios
 **POST** `/laboratorio`
 
-- **Descrição**: Cadastra um novo laboratório no sistema.
+- **Descrição**: Cadastra um novo laboratório no sistema. O datatype é form-data
 - **Requisição**:
   ```json
   {
       "nome": "string",
       "descricao": "string",
       "capacidade": "number",
-      "foto": "string (opcional)"
+      "foto": Binary
   }
   ```
 - **Resposta**:
