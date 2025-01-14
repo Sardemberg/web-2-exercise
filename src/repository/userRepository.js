@@ -16,6 +16,10 @@ const userRepository = {
     deleteUser: async (id) => {
         await UserModel.deleteOne({ _id: id })
         console.log("Usuário deletado com sucesso!")
+    },
+    findUserByLogin: async (login) => {
+        const user = await UserModel.findOne({ login: login })
+        return user
     }
 }
 
