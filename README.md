@@ -33,8 +33,8 @@ Esta API permite o gerenciamento de salas laboratoriais, oferecendo funcionalida
 - **Requisição**:
   ```json
   {
-      "usuario": "string",
-      "senha": "string"
+      "login": "string",
+      "password": "string"
   }
   ```
 - **Resposta**:
