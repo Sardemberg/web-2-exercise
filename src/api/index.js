@@ -8,7 +8,9 @@ const { labReportController } = require("./controllers/labReportController")
 const { labCreateController } = require("./controllers/labCreateController")
 const { multerMiddleware } = require("./middlewares/multerMiddleware");
 const { healthCheckController } = require('./controllers/healthCheckController');
-const { loginController } = require('./controllers/loginController')
+const { loginController } = require('./controllers/loginController');
+const { saveTemperatureController } = require('./controllers/saveTemperatureController');
+const { getTemperatureController } = require('./controllers/getTemperatureController');
 
 config();
 connectDB();
@@ -42,6 +44,12 @@ app.post('/laboratorio', validateTokenMiddleware, multerMiddleware.single("foto"
  
 // Rota para relatório de laboratórios
 app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
+
+// Salvar a temperatura
+app.post('/saveTemperature', saveTemperatureController)
+
+// Pegar a temperatura
+app.get('/temperaturaAtual', getTemperatureController)
 
 const app_port = process.env.APP_PORT || 10000
 
