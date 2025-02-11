@@ -11,6 +11,9 @@ const { labBlock } = require("./controllers/labBlockController");
 const { multerMiddleware } = require("./middlewares/multerMiddleware");
 const { healthCheckController } = require('./controllers/healthCheckController');
 const { loginController } = require('./controllers/loginController');
+const { saveTemperatureController } = require('./controllers/saveTemperatureController');
+const { getTemperatureController } = require('./controllers/getTemperatureController');
+
 const http = require('http');
 
 config();
@@ -33,6 +36,11 @@ app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
 //Bloqueio de laboratório
 app.post('/bloquear/:lab', validateTokenMiddleware ,(req, res)=> labBlock(req, res, io));
 
+// Salvar a temperatura
+app.post('/saveTemperature', saveTemperatureController)
+
+// Pegar a temperatura
+app.get('/temperaturaAtual', getTemperatureController)
 
 // Inicialização do servidor
 const app_port = process.env.APP_PORT || 10000;
