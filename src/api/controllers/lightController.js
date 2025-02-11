@@ -9,7 +9,13 @@ const ligarLuz = (req, res) => {
     res.json({'mensagem': 'Led ligado com sucesso.'});
 }
 
+const desligarLuz = (req, res) => {
+    statusLuz = 'Desligado';
+    res.json({'mensagem': 'Led desligado com sucesso.'});
+}
+
 module.exports = {
     ligarLuz,
-    obterStatusLuz
+    obterStatusLuz,
+    desligarLuz
 }
