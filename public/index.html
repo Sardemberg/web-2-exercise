@@ -1,0 +1,56 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Bloqueio de Laboratórios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #notifications {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+        .notification {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f0f0f0;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Monitor de Bloqueio de Laboratórios</h1>
+    <div id="notifications"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const notifications = document.getElementById('notifications');
+
+        socket.on('connect', () => {
+            console.log('Conectado ao servidor');
+            addNotification('Conectado ao sistema de monitoramento');
+        });
+
+        socket.on('bloquear', (data) => {
+            addNotification(`O Laboratório ${data.lab} foi bloqueado!`);
+        });
+
+        function addNotification(message) {
+            const div = document.createElement('div');
+            div.className = 'notification';
+            div.textContent = `${new Date().toLocaleTimeString()} - ${message}`;
+            notifications.insertBefore(div, notifications.firstChild);
+        }
+    </script>
+</body>
+</html>
