@@ -12,6 +12,10 @@ const labRepository = {
     getAllLabs: async () => {
         const allLabs = await LabModel.find()
         return allLabs
+    },
+    findLabByName: async (name) => {
+        const lab = await LabModel.findOne({ name: name })
+        return lab
     }
 }
 
