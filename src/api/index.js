@@ -13,9 +13,9 @@ const { healthCheckController } = require('./controllers/healthCheckController')
 const { loginController } = require('./controllers/loginController');
 const { saveTemperatureController } = require('./controllers/saveTemperatureController');
 const { getTemperatureController } = require('./controllers/getTemperatureController');
-const  {streamTutoria} = require('./service/stream_video')
 
 const http = require('http');
+const { streamTutoria } = require('./controllers/stream_video');
 
 config();
 connectDB();
