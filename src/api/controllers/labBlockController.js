@@ -2,10 +2,10 @@ const { labRepository } = require("../../repository/labRepository");
 
 const labBlock = async (req, res, io) => {
     try {
-        const labName = req.params.lab;
+        const labId = req.params.lab;
 
           // Verifica se o lab existe no banco de dados
-          const lab = await labRepository.findLabByName(labName);
+          const lab = await labRepository.findLabById(labId);
           if (!lab) {
               res.status(404).json({
                   message: "Laboratório não encontrado :("

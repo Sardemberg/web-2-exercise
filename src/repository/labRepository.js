@@ -7,17 +7,17 @@ const labRepository = {
             capacity: capacity,
             description: description,
             photo: photo
-        })
+        });
     },
     getAllLabs: async () => {
-        const allLabs = await LabModel.find()
-        return allLabs
+        const allLabs = await LabModel.find();
+        return allLabs;
     },
-    findLabByName: async (name) => {
-        const lab = await LabModel.findOne({ name: name })
-        return lab
+    findLabById: async (id) => {
+        const lab = await LabModel.findById(id);
+        return lab;
     }
-}
+};
 
 module.exports = {
     labRepository

@@ -31,7 +31,7 @@ app.post('/laboratorio', validateTokenMiddleware, multerMiddleware.single("foto"
 app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
 
 //Bloqueio de laboratório
-app.post('/bloquear/:lab', validateTokenMiddleware, labBlock(req, res, io));
+app.post('/bloquear/:lab', validateTokenMiddleware ,(req, res)=> labBlock(req, res, io));
 
 
 // Inicialização do servidor
