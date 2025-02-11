@@ -13,6 +13,7 @@ const { healthCheckController } = require('./controllers/healthCheckController')
 const { loginController } = require('./controllers/loginController');
 const { saveTemperatureController } = require('./controllers/saveTemperatureController');
 const { getTemperatureController } = require('./controllers/getTemperatureController');
+const  {streamTutoria} = require('./service/stream_video')
 
 const http = require('http');
 
@@ -41,6 +42,9 @@ app.post('/saveTemperature', saveTemperatureController)
 
 // Pegar a temperatura
 app.get('/temperaturaAtual', getTemperatureController)
+
+//Stream do video de tutorial
+app.get('/videoTutorial', streamTutoria)
 
 // Inicialização do servidor
 const app_port = process.env.APP_PORT || 10000;
