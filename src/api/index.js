@@ -11,7 +11,7 @@ const { labBlock } = require("./controllers/labBlockController");
 const { multerMiddleware } = require("./middlewares/multerMiddleware");
 const { healthCheckController } = require('./controllers/healthCheckController');
 const { loginController } = require('./controllers/loginController');
-const { ligarLuz, obterStatusLuz } = require('./controllers/lightController');
+const { ligarLuz, obterStatusLuz, desligarLuz } = require('./controllers/lightController');
 const { saveTemperatureController } = require('./controllers/saveTemperatureController');
 const { getTemperatureController } = require('./controllers/getTemperatureController');
 const http = require('http');
@@ -35,7 +35,7 @@ app.post('/laboratorio', validateTokenMiddleware, multerMiddleware.single("foto"
 app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
 
 //Bloqueio de laboratório
-app.post('/bloquear/:lab', validateTokenMiddleware ,(req, res)=> labBlock(req, res, io));
+app.post('/bloquear/:lab' ,(req, res)=> labBlock(req, res, io));
 
 // Salvar a temperatura
 app.post('/saveTemperature', saveTemperatureController)
@@ -51,6 +51,8 @@ app.get('/obterStatusLuz', obterStatusLuz);
 
 // Rota para ligar a luz
 app.get('/ligarLuz', ligarLuz);
+
+app.get('/desligarLuz', desligarLuz);
 
 // Inicialização do servidor
 const app_port = process.env.APP_PORT || 10000;

@@ -42,7 +42,8 @@
         });
 
         socket.on('bloquear', (data) => {
-            addNotification(`O Laboratório ${data.lab} foi bloqueado!`);
+            console.log(data.lab)
+            addNotification(`O Laboratório ${data.lab.name} foi bloqueado!`);
         });
 
         function addNotification(message) {
