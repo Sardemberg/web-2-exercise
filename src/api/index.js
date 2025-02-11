@@ -8,7 +8,8 @@ const { labReportController } = require("./controllers/labReportController")
 const { labCreateController } = require("./controllers/labCreateController")
 const { multerMiddleware } = require("./middlewares/multerMiddleware");
 const { healthCheckController } = require('./controllers/healthCheckController');
-const { loginController } = require('./controllers/loginController')
+const { loginController } = require('./controllers/loginController');
+const { ligarLuz, obterStatusLuz } = require('./controllers/lightController');
 
 config();
 connectDB();
@@ -48,3 +49,9 @@ const app_port = process.env.APP_PORT || 10000
 app.listen(app_port, () => {
     console.log(`Server is running on port ${app_port}`);
 });
+
+// Rota para obter o status da luz
+app.get('/obterStatusLuz', obterStatusLuz);
+
+// Rota para ligar a luz
+app.get('/ligarLuz', ligarLuz);
