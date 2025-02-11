@@ -11,9 +11,9 @@ const { labBlock } = require("./controllers/labBlockController");
 const { multerMiddleware } = require("./middlewares/multerMiddleware");
 const { healthCheckController } = require('./controllers/healthCheckController');
 const { loginController } = require('./controllers/loginController');
+const { ligarLuz, obterStatusLuz } = require('./controllers/lightController');
 const { saveTemperatureController } = require('./controllers/saveTemperatureController');
 const { getTemperatureController } = require('./controllers/getTemperatureController');
-
 const http = require('http');
 const { streamTutoria } = require('./controllers/stream_video');
 
@@ -45,6 +45,12 @@ app.get('/temperaturaAtual', getTemperatureController)
 
 //Stream do video de tutorial
 app.get('/videoTutorial', streamTutoria)
+
+// Rota para obter o status da luz
+app.get('/obterStatusLuz', obterStatusLuz);
+
+// Rota para ligar a luz
+app.get('/ligarLuz', ligarLuz);
 
 // Inicialização do servidor
 const app_port = process.env.APP_PORT || 10000;
