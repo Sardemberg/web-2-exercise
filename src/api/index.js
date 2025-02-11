@@ -1,49 +1,40 @@
 const { config } = require('dotenv');
 const { connectDB } = require('../config/mongodb');
-const { json } = require('express');
+const { configureSocket } = require('../config/server');
 const express = require('express');
+const { json } = require('express');
 const { validateTokenMiddleware } = require('./middlewares/vadetionMiddleware');
-const { dayMiddleware } = require("./middlewares/dayMiddleware")
-const { labReportController } = require("./controllers/labReportController")
-const { labCreateController } = require("./controllers/labCreateController")
+const { dayMiddleware } = require("./middlewares/dayMiddleware");
+const { labReportController } = require("./controllers/labReportController");
+const { labCreateController } = require("./controllers/labCreateController");
+const { labBlock } = require("./controllers/labBlockController");
 const { multerMiddleware } = require("./middlewares/multerMiddleware");
 const { healthCheckController } = require('./controllers/healthCheckController');
 const { loginController } = require('./controllers/loginController');
 const { saveTemperatureController } = require('./controllers/saveTemperatureController');
 const { getTemperatureController } = require('./controllers/getTemperatureController');
 
+const http = require('http');
+
 config();
 connectDB();
+
 const app = express();
+const server = http.createServer(app);
+const io = configureSocket(server); // Configura o Socket.IO
+
 app.use(json());
 app.use(dayMiddleware);
+app.use(express.static('public'));
 
-//Healthcheck
-app.get("/", healthCheckController)
-
-// Rota para criar um acesso
-
-app.post('/acesso', (req, res) => {
-    const { login, password } = req.body;
-    // Verifica se o usuário existe no banco de dados
-
-    // Se o usuário existe, verifica se a senha está correta
-
-    // Se a senha está correta, retorna um true
-    // Se a senha está incorreta, retorna um false
-
-    // Caso usuário não exista, cria um novo usuário
-
-});
-
-// Rota para logar
+// Healthcheck
+app.get("/", healthCheckController);
 app.post('/validaLogin', loginController);
-
-// Rota para Laboratório novo
 app.post('/laboratorio', validateTokenMiddleware, multerMiddleware.single("foto"), labCreateController);
- 
-// Rota para relatório de laboratórios
 app.get('/laboratorio/relatorio', validateTokenMiddleware, labReportController);
+
+//Bloqueio de laboratório
+app.post('/bloquear/:lab', validateTokenMiddleware ,(req, res)=> labBlock(req, res, io));
 
 // Salvar a temperatura
 app.post('/saveTemperature', saveTemperatureController)
@@ -51,8 +42,8 @@ app.post('/saveTemperature', saveTemperatureController)
 // Pegar a temperatura
 app.get('/temperaturaAtual', getTemperatureController)
 
-const app_port = process.env.APP_PORT || 10000
-
-app.listen(app_port, () => {
-    console.log(`Server is running on port ${app_port}`);
+// Inicialização do servidor
+const app_port = process.env.APP_PORT || 10000;
+server.listen(app_port, () => {
+    console.log(`Servidor rodando em http://localhost:${app_port}`);
 });
